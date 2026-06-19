@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(/usr/bin/git archive *)",
+      "Bash(curl -sL \"https://raw.githubusercontent.com/CoplayDev/unity-mcp/main/MCPForUnity/package.json\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('name:',d.get\\('name'\\)\\); print\\('displayName:',d.get\\('displayName'\\)\\); print\\('version:',d.get\\('version'\\)\\); print\\('unity:',d.get\\('unity'\\)\\)\")",
+      "Bash(curl -LsSf https://astral.sh/uv/install.sh)",
+      "Bash(sh)",
+      "Bash(/Users/michaelakosovsky/.local/bin/uv --version)",
+      "Read(//Applications/Unity/Hub/Editor/**)",
+      "Read(//Applications/Unity/Hub/Editor/6000.3.12f1/Unity.app/Contents/MacOS/**)",
+      "Bash(BIN=\"/Volumes/My Passport 2/Apps/Unity/6000.3.12f1/Unity.app/Contents/MacOS/Unity\"; test -x \"$BIN\" && echo \"Unity binary OK: $BIN\" || echo \"binary missing\"; echo \"\"; echo \"=== Editor.log location \\(macOS default\\) ===\" && ls -la ~/Library/Logs/Unity/Editor.log 2>/dev/null && echo \"default Editor.log exists\"; echo \"\"; echo \"=== project Logs/ folder ===\" && ls -la \"/Volumes/My Passport 2/T&M-seminar-project/Logs/\" 2>/dev/null)",
+      "Bash(python3 -)",
+      "Bash(find . -iname \"*keypad*\")",
+      "Bash(ls -la \"t&m assets/\")",
+      "Bash(ls \"Resources/\")",
+      "Bash(grep -iv \"bttn\\\\|m_Name: $\")",
+      "Bash(diskutil info *)",
+      "Bash(dd if=/dev/zero of=\"/Volumes/My Passport 2/.__speedtest.tmp\" bs=1m count=200)",
+      "Bash(rm -rf ~/Library/Caches/com.spotify.client ~/Library/Caches/Google ~/Library/Caches/Adobe ~/Library/Caches/\"Adobe InDesign\" ~/Library/Caches/com.unity3d.unityhub.ShipIt ~/Library/Caches/unityhub-updater ~/Library/Caches/Unity ~/Downloads/\"T&M-seminar-project.zip\" ~/Downloads/Codex.dmg ~/Downloads/meta_xr_simulator.dmg ~/Downloads/Duik_Angela_17.0.2 ~/Downloads/\"Unconfirmed 414236.crdownload\"; echo \"=== done, free space now: ===\"; df -h /System/Volumes/Data | tail -1)",
+      "WebSearch",
+      "Bash(python3 -c ' *)"
+    ]
+  }
+}
