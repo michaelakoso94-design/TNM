@@ -7,4 +7,5 @@
 /[Uu]ser[Ss]ettings/
 *.DS_Store
 *.utmp
-* .apk
+*.apk
+
