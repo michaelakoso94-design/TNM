@@ -148,9 +148,6 @@ PlayerSettings:
   preloadedAssets:
   - {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   - {fileID: 11400000, guid: bd8c1c1bad1c04d5682033f398316276, type: 2}
-  - {fileID: 11400000, guid: e1265dfb475019d45a6f917c072d15ec, type: 2}
-  - {fileID: 5928329487113448389, guid: 7dab78be3a9894f6fa0ca7bd7cd85475, type: 2}
-  - {fileID: 1330531752244866307, guid: 80f8b55fb97bd40369443b18ab213858, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -839,8 +836,8 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Android: OVR_DISABLE_HAND_PINCH_BUTTON_MAPPING
-    Standalone: OVR_DISABLE_HAND_PINCH_BUTTON_MAPPING
+    Android: OVR_DISABLE_HAND_PINCH_BUTTON_MAPPING;USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS
+    Standalone: OVR_DISABLE_HAND_PINCH_BUTTON_MAPPING;USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
