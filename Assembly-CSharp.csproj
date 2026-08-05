@@ -52,8 +52,11 @@
     <Compile Include="Assets\Keypad\Scripts\Keypad.cs" />
     <Compile Include="Assets\Keypad\Scripts\KeypadInteractionFPV.cs" />
     <Compile Include="Assets\Scripts\PokeTip.cs" />
+    <Compile Include="Assets\Scripts\RestartButtonUI.cs" />
     <Compile Include="Assets\Scripts\FollowCameraChest.cs" />
     <Compile Include="Assets\Scripts\PlayerLocomotion.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\RespawnPlayer.cs" />
     <Compile Include="Assets\Scripts\LaserControlBoard.cs" />
     <Compile Include="Assets\Scripts\LaserPuzzleBoard.cs" />
     <Compile Include="Assets\Scripts\WristInventoryUI.cs" />

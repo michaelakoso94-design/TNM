@@ -36840,7 +36840,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR List_1_tCC00F1EA7285A47DF2A9D8CE7
 		return L_0;
 	}
 }
-// Method Definition Index: 146508
+// Method Definition Index: 146626
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool SubsystemWithProvider_get_running_m6BF31FC3BDA38C56C0F60FEA37767A4151B22C44_inline (SubsystemWithProvider_tC72E35EE2D413A4B0635B058154BABF265F31242* __this, const RuntimeMethod* method) 
 {
 	{
@@ -36848,7 +36848,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool SubsystemWithProvider_get_ru
 		return L_0;
 	}
 }
-// Method Definition Index: 147114
+// Method Definition Index: 147123
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR XRGeneralSettings_t8F8D096944606B5AD845D010706BF7094ADEC8CE* XRGeneralSettings_get_Instance_m9F222F982E62E066E119754858D8E73CFE42048C_inline (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -36864,7 +36864,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR XRGeneralSettings_t8F8D096944606B
 		return L_0;
 	}
 }
-// Method Definition Index: 147116
+// Method Definition Index: 147125
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool XRGeneralSettings_get_InitManagerOnStart_mA117DE9A4754CC3BA0E7F99FB7A593FF5B5B482A_inline (XRGeneralSettings_t8F8D096944606B5AD845D010706BF7094ADEC8CE* __this, const RuntimeMethod* method) 
 {
 	{
