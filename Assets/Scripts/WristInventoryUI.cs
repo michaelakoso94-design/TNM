@@ -9,6 +9,7 @@ public class WristInventoryUI : MonoBehaviour
     public Text toggleButtonLabel;
     public RectTransform itemsContainer;
     public RectTransform itemRowTemplate;
+    public Button restartButton;
 
     readonly List<GameObject> _spawned = new List<GameObject>();
 
@@ -18,6 +19,9 @@ public class WristInventoryUI : MonoBehaviour
         if (inventory == null) { Debug.LogWarning("[WristInventoryUI] No PlayerInventory found"); return; }
 
         if (itemRowTemplate != null) itemRowTemplate.gameObject.SetActive(false);
+
+        if (restartButton != null)
+            restartButton.onClick.AddListener(GameManager.RestartGame);
 
         inventory.OnChanged += Refresh;
         Refresh();
