@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// Attach to the restart button. Drag the XR Rig and the spawn point into the fields.
@@ -21,5 +22,10 @@ public class RespawnPlayer : MonoBehaviour
         if (xrRig == null || spawnPoint == null) { Debug.LogWarning("[RespawnPlayer] Missing references"); return; }
         xrRig.position = spawnPoint.position;
         xrRig.rotation = spawnPoint.rotation;
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
