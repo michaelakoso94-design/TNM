@@ -121,11 +121,20 @@ extern void KeypadInteractionFPV_Awake_m883CCD99675E394867F6804C073E8A662698409E
 extern void KeypadInteractionFPV_Update_m9C611A5E6A8A0AA78F047EDA3026ED2F088832F8 (void);
 extern void KeypadInteractionFPV__ctor_m52155AD0907A674370DE3D83C09EDE26F8038DA9 (void);
 extern void SlidingDoor_get_IsOpoen_m2128BFDE468D4B636B7EADA5591B164445569F0C (void);
+extern void SlidingDoor_Awake_m45B6C30E26280DA046785B777F58FEE6A3872BDD (void);
 extern void SlidingDoor_ToggleDoor_mEAAB8109BB52362EC678E90657A517B69B53431F (void);
 extern void SlidingDoor_OpenDoor_m5849BA28262521B5854AEEF0DCED0B1EC4A6BBD2 (void);
 extern void SlidingDoor_CloseDoor_mDA6AAD20680082B2E4CB817C19D9B993E2A61077 (void);
+extern void SlidingDoor_ApplyState_mECBD8F27DAECBA37CB85D7D514B125C49D011D2D (void);
+extern void SlidingDoor_SlideRoutine_mB8F7393FD28C8CD2AA009C161F4D26E4E91C51E7 (void);
 extern void SlidingDoor__ctor_m25A036046F62DEAF4F0D8D6B2A2EC9FDF3FFFAD6 (void);
-static Il2CppMethodPointer s_methodPointers[118] = 
+extern void U3CSlideRoutineU3Ed__14__ctor_m37A6DFD89911F7740EDA6F0D41A59E23AFB63034 (void);
+extern void U3CSlideRoutineU3Ed__14_System_IDisposable_Dispose_m492E9F0AFD255C272D40AB4FD4C1027296AEE846 (void);
+extern void U3CSlideRoutineU3Ed__14_MoveNext_m0B0C1F83616C1C54E9755F96D1631907E154CC0C (void);
+extern void U3CSlideRoutineU3Ed__14_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m53F7A5C00D8EECCBFEB2CDC876D2F50DE8B6ED33 (void);
+extern void U3CSlideRoutineU3Ed__14_System_Collections_IEnumerator_Reset_mB3D8A46E2E3A050D0B4D1AEB664B92935E931333 (void);
+extern void U3CSlideRoutineU3Ed__14_System_Collections_IEnumerator_get_Current_mCA4D2FC659EB3532EBF5D66C95DFC08D83D436F7 (void);
+static Il2CppMethodPointer s_methodPointers[127] = 
 {
 	FollowCameraChest_LateUpdate_m38227670CC57785F70DB4F0B04C103C9D131ED7F,
 	FollowCameraChest__ctor_mD8FA15DB2DEE651BDE885DD73A65D51A879A0519,
@@ -241,12 +250,21 @@ static Il2CppMethodPointer s_methodPointers[118] =
 	KeypadInteractionFPV_Update_m9C611A5E6A8A0AA78F047EDA3026ED2F088832F8,
 	KeypadInteractionFPV__ctor_m52155AD0907A674370DE3D83C09EDE26F8038DA9,
 	SlidingDoor_get_IsOpoen_m2128BFDE468D4B636B7EADA5591B164445569F0C,
+	SlidingDoor_Awake_m45B6C30E26280DA046785B777F58FEE6A3872BDD,
 	SlidingDoor_ToggleDoor_mEAAB8109BB52362EC678E90657A517B69B53431F,
 	SlidingDoor_OpenDoor_m5849BA28262521B5854AEEF0DCED0B1EC4A6BBD2,
 	SlidingDoor_CloseDoor_mDA6AAD20680082B2E4CB817C19D9B993E2A61077,
+	SlidingDoor_ApplyState_mECBD8F27DAECBA37CB85D7D514B125C49D011D2D,
+	SlidingDoor_SlideRoutine_mB8F7393FD28C8CD2AA009C161F4D26E4E91C51E7,
 	SlidingDoor__ctor_m25A036046F62DEAF4F0D8D6B2A2EC9FDF3FFFAD6,
+	U3CSlideRoutineU3Ed__14__ctor_m37A6DFD89911F7740EDA6F0D41A59E23AFB63034,
+	U3CSlideRoutineU3Ed__14_System_IDisposable_Dispose_m492E9F0AFD255C272D40AB4FD4C1027296AEE846,
+	U3CSlideRoutineU3Ed__14_MoveNext_m0B0C1F83616C1C54E9755F96D1631907E154CC0C,
+	U3CSlideRoutineU3Ed__14_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m53F7A5C00D8EECCBFEB2CDC876D2F50DE8B6ED33,
+	U3CSlideRoutineU3Ed__14_System_Collections_IEnumerator_Reset_mB3D8A46E2E3A050D0B4D1AEB664B92935E931333,
+	U3CSlideRoutineU3Ed__14_System_Collections_IEnumerator_get_Current_mCA4D2FC659EB3532EBF5D66C95DFC08D83D436F7,
 };
-static const int32_t s_InvokerIndices[118] = 
+static const int32_t s_InvokerIndices[127] = 
 {
 	24139,
 	24139,
@@ -366,12 +384,21 @@ static const int32_t s_InvokerIndices[118] =
 	24139,
 	24139,
 	24139,
+	24139,
+	16090,
+	24139,
+	18353,
+	24139,
+	23629,
+	23891,
+	24139,
+	23891,
 };
 IL2CPP_EXTERN_C const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule;
 const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule = 
 {
 	"Assembly-CSharp.dll",
-	118,
+	127,
 	s_methodPointers,
 	0,
 	NULL,
