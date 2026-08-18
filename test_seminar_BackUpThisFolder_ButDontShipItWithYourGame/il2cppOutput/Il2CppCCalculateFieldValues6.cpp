@@ -9163,6 +9163,7 @@ struct KeypadInteractionFPV_tC7E6D978C76DC9A14DC952F9190AB07586F90B67  : public 
 struct LaserBeam_tDE6E5A23ADCC857EA5645ADF5CDD9F208559EF80  : public MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71
 {
 	String_t* ___emitterId;
+	UnityEvent_tDC2C3548799DBC91D1E3F3DE60083A66F4751977* ___laserHit;
 };
 struct LaserControlBoard_tF00812947DDA0D176FB39D1D23B4C1FA15B23944  : public MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71
 {
@@ -12475,9 +12476,9 @@ IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable18763[1] =
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable18764[9] = 
 {
 	static_cast<int32_t>(offsetof(Glasses_t18244EF0A7510186A52BF0B801DC11EAEF51D697, ___headEquipPoint)),static_cast<int32_t>(offsetof(Glasses_t18244EF0A7510186A52BF0B801DC11EAEF51D697, ___homeAnchor)),static_cast<int32_t>(offsetof(Glasses_t18244EF0A7510186A52BF0B801DC11EAEF51D697, ___homeZone)),static_cast<int32_t>(offsetof(Glasses_t18244EF0A7510186A52BF0B801DC11EAEF51D697, ___inventory)),static_cast<int32_t>(offsetof(Glasses_t18244EF0A7510186A52BF0B801DC11EAEF51D697, ___equipRadius)),static_cast<int32_t>(offsetof(Glasses_t18244EF0A7510186A52BF0B801DC11EAEF51D697, ____grab)),static_cast<int32_t>(offsetof(Glasses_t18244EF0A7510186A52BF0B801DC11EAEF51D697, ____rb)),static_cast<int32_t>(offsetof(Glasses_t18244EF0A7510186A52BF0B801DC11EAEF51D697, ____anchor)),static_cast<int32_t>(offsetof(Glasses_t18244EF0A7510186A52BF0B801DC11EAEF51D697, ____equipped)),};
-IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable18765[1] = 
+IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable18765[2] = 
 {
-	static_cast<int32_t>(offsetof(LaserBeam_tDE6E5A23ADCC857EA5645ADF5CDD9F208559EF80, ___emitterId)),};
+	static_cast<int32_t>(offsetof(LaserBeam_tDE6E5A23ADCC857EA5645ADF5CDD9F208559EF80, ___emitterId)),static_cast<int32_t>(offsetof(LaserBeam_tDE6E5A23ADCC857EA5645ADF5CDD9F208559EF80, ___laserHit)),};
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable18766[8] = 
 {
 	static_cast<int32_t>(offsetof(LaserControlBoard_tF00812947DDA0D176FB39D1D23B4C1FA15B23944, ___lasersRoot)),static_cast<int32_t>(offsetof(LaserControlBoard_tF00812947DDA0D176FB39D1D23B4C1FA15B23944, ___toggleButton)),static_cast<int32_t>(offsetof(LaserControlBoard_tF00812947DDA0D176FB39D1D23B4C1FA15B23944, ___toggleButtonLabel)),static_cast<int32_t>(offsetof(LaserControlBoard_tF00812947DDA0D176FB39D1D23B4C1FA15B23944, ___statusLED)),static_cast<int32_t>(offsetof(LaserControlBoard_tF00812947DDA0D176FB39D1D23B4C1FA15B23944, ___statusText)),static_cast<int32_t>(offsetof(LaserControlBoard_tF00812947DDA0D176FB39D1D23B4C1FA15B23944, ___armedColor)),static_cast<int32_t>(offsetof(LaserControlBoard_tF00812947DDA0D176FB39D1D23B4C1FA15B23944, ___disarmedColor)),static_cast<int32_t>(offsetof(LaserControlBoard_tF00812947DDA0D176FB39D1D23B4C1FA15B23944, ___U3CLasersEnabledU3Ek__BackingField)),};

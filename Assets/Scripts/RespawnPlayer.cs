@@ -14,15 +14,9 @@ public class RespawnPlayer : MonoBehaviour
     void Start()
     {
         var btn = GetComponent<Button>();
-        if (btn != null) btn.onClick.AddListener(Respawn);
+        if (btn != null) btn.onClick.AddListener(Restart);
     }
-
-    public void Respawn()
-    {
-        if (xrRig == null || spawnPoint == null) { Debug.LogWarning("[RespawnPlayer] Missing references"); return; }
-        xrRig.position = spawnPoint.position;
-        xrRig.rotation = spawnPoint.rotation;
-    }
+  
 
     public void Restart()
     {

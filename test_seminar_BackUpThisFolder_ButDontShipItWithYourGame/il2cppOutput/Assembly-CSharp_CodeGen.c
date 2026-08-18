@@ -77,7 +77,6 @@ extern void PlayerLocomotion_RotateAroundHead_mF4FF68A0B61AA30657D1B424116B6A238
 extern void PlayerLocomotion__ctor_m00D330B78B706B70F08D7D96517B597EB7F11AC2 (void);
 extern void PokeTip__ctor_m3FC3A6AC41EE4A2245A13567A12A9FAF8A20D653 (void);
 extern void RespawnPlayer_Start_m0A9D0851D40B2779EA02A284377BF108A83D0E8E (void);
-extern void RespawnPlayer_Respawn_m52232EB4DE40EED69AD33CFE52F4E273EE71846C (void);
 extern void RespawnPlayer_Restart_m5CB1F3F9E67F5A5AD9FE81C211C47D94A4C8140C (void);
 extern void RespawnPlayer__ctor_m850744CC29E7FB1AEBF322230E9A7FA14467CB6F (void);
 extern void RestartButtonUI_Awake_mCF4E9699D58703315B5B2D34D4CE7DCA528C6DB5 (void);
@@ -126,7 +125,7 @@ extern void SlidingDoor_ToggleDoor_mEAAB8109BB52362EC678E90657A517B69B53431F (vo
 extern void SlidingDoor_OpenDoor_m5849BA28262521B5854AEEF0DCED0B1EC4A6BBD2 (void);
 extern void SlidingDoor_CloseDoor_mDA6AAD20680082B2E4CB817C19D9B993E2A61077 (void);
 extern void SlidingDoor__ctor_m25A036046F62DEAF4F0D8D6B2A2EC9FDF3FFFAD6 (void);
-static Il2CppMethodPointer s_methodPointers[119] = 
+static Il2CppMethodPointer s_methodPointers[118] = 
 {
 	FollowCameraChest_LateUpdate_m38227670CC57785F70DB4F0B04C103C9D131ED7F,
 	FollowCameraChest__ctor_mD8FA15DB2DEE651BDE885DD73A65D51A879A0519,
@@ -198,7 +197,6 @@ static Il2CppMethodPointer s_methodPointers[119] =
 	PlayerLocomotion__ctor_m00D330B78B706B70F08D7D96517B597EB7F11AC2,
 	PokeTip__ctor_m3FC3A6AC41EE4A2245A13567A12A9FAF8A20D653,
 	RespawnPlayer_Start_m0A9D0851D40B2779EA02A284377BF108A83D0E8E,
-	RespawnPlayer_Respawn_m52232EB4DE40EED69AD33CFE52F4E273EE71846C,
 	RespawnPlayer_Restart_m5CB1F3F9E67F5A5AD9FE81C211C47D94A4C8140C,
 	RespawnPlayer__ctor_m850744CC29E7FB1AEBF322230E9A7FA14467CB6F,
 	RestartButtonUI_Awake_mCF4E9699D58703315B5B2D34D4CE7DCA528C6DB5,
@@ -248,12 +246,12 @@ static Il2CppMethodPointer s_methodPointers[119] =
 	SlidingDoor_CloseDoor_mDA6AAD20680082B2E4CB817C19D9B993E2A61077,
 	SlidingDoor__ctor_m25A036046F62DEAF4F0D8D6B2A2EC9FDF3FFFAD6,
 };
-static const int32_t s_InvokerIndices[119] = 
+static const int32_t s_InvokerIndices[118] = 
 {
 	24139,
 	24139,
 	24139,
-	39337,
+	39338,
 	24139,
 	23891,
 	18452,
@@ -308,7 +306,7 @@ static const int32_t s_InvokerIndices[119] =
 	18192,
 	24139,
 	24139,
-	39337,
+	39338,
 	24139,
 	13321,
 	13321,
@@ -333,8 +331,7 @@ static const int32_t s_InvokerIndices[119] =
 	24139,
 	24139,
 	24139,
-	24139,
-	39399,
+	39400,
 	24139,
 	23891,
 	23891,
@@ -374,7 +371,7 @@ IL2CPP_EXTERN_C const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule;
 const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule = 
 {
 	"Assembly-CSharp.dll",
-	119,
+	118,
 	s_methodPointers,
 	0,
 	NULL,
