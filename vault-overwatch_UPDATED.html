@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vault Voice // Overwatch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Share+Tech+Mono&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080b10;
+    --bg-panel:#0d1219;
+    --bg-map:#0e141c;
+    --line:rgba(120,150,180,.16);
+    --line-strong:rgba(140,170,195,.30);
+    --muted:#56656f;
+    --muted-2:#728290;
+    --text:#c9d4dc;
+    --text-bright:#eaf2f7;
+    --cyan:#2fd0e6;
+    --cyan-bright:#4ce6f6;
+    --cyan-dim:#1c7f8f;
+    --green:#37d17d;
+    --win-border:rgba(160,185,200,.55);
+    --win-border-cyan:rgba(70,205,230,.75);
+    --paper:#dde7ed;
+    --paper-hover:#eef5f9;
+    --cell-line:rgba(60,92,108,.5);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Chakra Petch',sans-serif;
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* faint scanline atmosphere */
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;
+    background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0 2px,rgba(0,0,0,.10) 2px 3px);
+    opacity:.35;
+  }
+
+  .hud{display:flex;flex-direction:column;height:100vh}
+
+  /* ============ HEADER ============ */
+  .topbar{
+    display:grid;
+    grid-template-columns:minmax(280px,1fr) minmax(280px,1fr);
+    height:74px;flex:0 0 74px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .topbar::before,.topbar::after{
+    content:"";position:absolute;top:6px;width:22px;height:22px;
+    border-top:1.5px solid var(--line-strong);
+  }
+  .topbar::before{left:6px;border-left:1.5px solid var(--line-strong)}
+  .topbar::after{right:6px;border-right:1.5px solid var(--line-strong)}
+
+  .tb-cell{display:flex;flex-direction:column;justify-content:center;padding:0 22px;position:relative}
+  .tb-cell + .tb-cell{border-left:1px solid var(--line)}
+
+  .tb-title{font-weight:700;letter-spacing:.06em;color:var(--text-bright);font-size:16px}
+  .tb-sub{font-size:9.5px;letter-spacing:.14em;color:var(--muted);margin-top:3px}
+
+  .tb-right{flex-direction:row;align-items:center;justify-content:flex-end;gap:20px}
+  .comms-state{text-align:right}
+  .comms-state .lbl{font-size:9px;letter-spacing:.22em;color:var(--muted)}
+  .comms-state .val{display:flex;align-items:center;gap:7px;justify-content:flex-end;font-size:12px;font-weight:600;letter-spacing:.14em;color:var(--text-bright);margin-top:3px}
+  .dot-pair{display:inline-flex;gap:4px;margin-left:4px}
+  .dp{width:7px;height:7px;border-radius:50%}
+  .dp.on{background:var(--cyan);box-shadow:0 0 6px var(--cyan)}
+  .dp.off{border:1.5px solid var(--muted)}
+  .tb-icons{display:flex;gap:14px;color:var(--muted-2)}
+  .tb-icons svg{width:19px;height:19px;display:block}
+
+  /* ============ MAIN ============ */
+  .main{flex:1;display:grid;grid-template-columns:1fr 344px;min-height:0}
+
+  /* --- stage (left) --- */
+  .stage{position:relative;overflow:hidden}
+  .coords{position:absolute;top:20px;left:22px;line-height:1.35}
+  .coords .row{font-family:'Share Tech Mono',monospace;font-size:24px;color:#3c4a55;letter-spacing:.02em}
+  .coords .row .u{font-size:12px;color:#33404a;margin-left:6px;vertical-align:middle}
+
+  .folders{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+           display:flex;flex-direction:column;align-items:flex-start;gap:34px}
+  .folder{display:inline-flex;align-items:center;gap:22px;background:none;border:0;cursor:pointer;padding:8px;width:max-content;
+          color:var(--text);font-family:inherit;transition:transform .12s ease}
+  .folder:hover{transform:translateX(4px)}
+  .folder:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}
+  .folder .ico{filter:drop-shadow(0 0 9px rgba(60,200,225,.55))}
+  .folder .ico svg{width:102px;height:72px;display:block}
+  .folder .lbl{font-weight:700;font-size:26px;line-height:1.08;color:#7f8d98;text-align:left;letter-spacing:.01em}
+  .folder:hover .lbl{color:var(--text-bright)}
+
+  /* map card */
+  .map-card{position:absolute;left:22px;bottom:0;width:360px;background:var(--bg-map);
+            border:1px solid var(--line);border-bottom:0;padding:20px 22px 18px}
+  .map-head{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:12px;border-bottom:1px solid var(--line)}
+  .map-head .t{font-weight:700;font-size:17px;color:var(--text-bright);letter-spacing:.03em}
+  .map-head .n{font-size:11px;color:var(--muted);letter-spacing:.08em}
+  .map-inner{position:relative;margin:16px 0 14px;height:180px;border:1px solid var(--line);background:radial-gradient(circle at 50% 55%,rgba(20,40,55,.5),rgba(6,10,14,.9))}
+  .map-inner .ol{position:absolute;top:8px;left:10px;font-size:9px;letter-spacing:.2em;color:var(--cyan-dim)}
+  .map-grid{position:absolute;inset:26px 34px;
+    background-image:
+      repeating-linear-gradient(0deg,transparent 0 24px,rgba(70,120,140,.18) 24px 25px),
+      repeating-linear-gradient(90deg,transparent 0 24px,rgba(70,120,140,.18) 24px 25px);
+    border:1px dashed rgba(70,120,140,.28)}
+  .map-blip{position:absolute;top:50%;left:50%;width:24px;height:24px;transform:translate(-50%,-50%);
+    background:var(--cyan);box-shadow:0 0 16px var(--cyan);animation:pulse 2.2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.85;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.12)}}
+  .map-meta{font-size:11px;letter-spacing:.1em;color:var(--muted);line-height:2.1}
+  .map-inner .ol{z-index:2}
+
+  /* map: deactivated state — remove .deactivated from .map-card to bring it back online */
+  .map-card.deactivated{filter:grayscale(1) brightness(.7)}
+  .map-card.deactivated .map-head .t{color:#8a949c}
+  .map-card.deactivated .map-inner{background:radial-gradient(circle at 50% 55%,rgba(24,28,32,.5),rgba(6,8,10,.92))}
+  .map-card.deactivated .map-inner::after{
+    content:"SIGNAL LOST";position:absolute;inset:0;z-index:3;
+    display:grid;place-items:center;
+    font-size:10px;font-weight:600;letter-spacing:.34em;color:#7a848d;
+    background:
+      repeating-linear-gradient(115deg,transparent 0 9px,rgba(255,255,255,.022) 9px 18px),
+      rgba(6,9,12,.6);
+  }
+  .map-card.deactivated .map-blip{background:#39424a;box-shadow:none;animation:none;opacity:.55}
+  .map-card.deactivated .map-grid{border-style:dotted;opacity:.55}
+  .map-card.deactivated .map-meta{color:#3f4a53}
+
+  /* --- comms rail (right) --- */
+  .rail{border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+
+  .log-head{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;
+            background:rgba(30,45,58,.5);border-bottom:1px solid var(--line)}
+  .log-head .t{font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--muted-2)}
+  .live-dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 1.4s steps(1) infinite}
+  @keyframes blink{50%{opacity:.25}}
+
+  .log{flex:1;min-height:0;overflow-y:auto;padding:14px 20px 24px;scrollbar-width:thin;scrollbar-color:#233 transparent}
+  .log::-webkit-scrollbar{width:5px}
+  .log::-webkit-scrollbar-thumb{background:#1d2830;border-radius:3px}
+  .log .line{font-size:11px;line-height:1.55;letter-spacing:.03em;color:#4a5762;margin-bottom:13px;font-family:'Share Tech Mono',monospace}
+  .log .line .ts{color:var(--cyan-dim);margin-right:6px}
+  .log .line .src{color:var(--text-bright);font-weight:400;margin-right:5px}
+
+  /* ============ WINDOWS ============ */
+  .win{position:fixed;background:#000;border:1px solid var(--win-border);display:none;flex-direction:column;z-index:100;box-shadow:0 24px 80px rgba(0,0,0,.7)}
+  .win.open{display:flex;animation:winIn .16s ease}
+  @keyframes winIn{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:scale(1)}}
+  .win.nested{border-color:var(--win-border-cyan)}
+
+  .win-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:grab;user-select:none;border-bottom:1px solid transparent}
+  .win-bar:active{cursor:grabbing}
+  .win-title{font-size:15px;font-weight:600;letter-spacing:.04em;color:var(--text-bright)}
+  .win.nested .win-title{color:var(--cyan-bright)}
+  .win-close{background:none;border:0;color:#cfd8de;cursor:pointer;padding:2px;line-height:0;transition:color .12s}
+  .win.nested .win-close{color:var(--cyan-bright)}
+  .win-close:hover{color:#fff}
+  .win-close svg{width:22px;height:22px}
+  .win-body{flex:1;position:relative;overflow:auto}
+
+  /* file scatter body */
+  .win-files{width:960px;height:720px;max-width:92vw;max-height:74vh}
+  .file-scatter{position:absolute;inset:0}
+  .file{position:absolute;background:none;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:14px;
+        font-family:'Inter',sans-serif;transition:transform .12s ease}
+  .file:hover{transform:translateY(-4px)}
+  .file:focus-visible{outline:2px solid var(--cyan);outline-offset:6px}
+  .file .doc svg{width:64px;height:80px;display:block;filter:drop-shadow(0 0 5px rgba(60,200,225,.35))}
+  .file .fname{font-size:22px;font-weight:400;color:#fff;letter-spacing:.01em}
+  .file:hover .fname{color:var(--cyan-bright)}
+
+  /* dot grid body */
+  .win-grid .win-body{padding:0}
+  .dotgrid{display:grid;grid-template-columns:repeat(5,110px);grid-template-rows:repeat(5,86px)}
+  .cell{display:grid;place-items:center;border:1px solid rgba(90,180,200,.35)}
+  .cell .d{width:44px;height:44px;border-radius:50%;background:#3a3f45}
+  .cell.on .d{background:var(--cyan-bright);box-shadow:0 0 18px var(--cyan-bright),0 0 6px #fff}
+
+  /* letter grid body */
+  .lettergrid{display:grid;grid-template-columns:repeat(8,110px);grid-auto-rows:86px;font-family:'Inter',sans-serif}
+  .lettergrid .ch{display:grid;place-items:center;font-family:inherit;font-size:28px;font-weight:400;
+                  background:var(--paper);color:#080b10;
+                  border:1px solid var(--cell-line);padding:0;cursor:pointer;
+                  transition:background .12s ease,color .12s ease}
+  .lettergrid .ch:hover{background:var(--paper-hover)}
+  .lettergrid .ch:focus-visible{outline:2px solid var(--cyan-bright);outline-offset:-3px}
+  .lettergrid .ch.on{background:#000;color:#000}
+  .lettergrid .ch.on:hover{background:#000}
+
+  @media (max-width:1080px){
+    .main{grid-template-columns:1fr 300px}
+    .rail{font-size:12px}
+  }
+</style>
+</head>
+<body>
+<div class="hud">
+
+  <!-- ============ HEADER ============ -->
+  <header class="topbar">
+    <div class="tb-cell">
+      <div class="tb-title">VAULT VOICE // OVERWATCH</div>
+      <div class="tb-sub">SYSTEM_VERSION:4.0.2-STABLE</div>
+    </div>
+    <div class="tb-cell tb-right">
+      <div class="comms-state">
+        <div class="lbl">COMMS-LINK</div>
+        <div class="val">ENCRYPTED
+          <span class="dot-pair"><span class="dp on"></span><span class="dp off"></span></span>
+        </div>
+      </div>
+      <div class="tb-icons">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="13" r="8"/><path d="M12 13V9M9 2h6M18.5 6.5l1.5-1.5"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20c0-8 4-13 12-15M8 20c0-5 2.5-8.5 8-10M12 20c0-2.5 1.5-4 4-5M15.5 20h.01"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+
+    <!-- LEFT STAGE -->
+    <section class="stage">
+      <div class="coords">
+        <div class="row">40.7128 <span class="u">N</span></div>
+        <div class="row">74.0060W</div>
+      </div>
+
+      <div class="folders">
+        <button class="folder" data-win="win-laser">
+          <span class="ico">
+            <svg viewBox="0 0 74 52" fill="none" stroke="var(--cyan)" stroke-width="2">
+              <path d="M6 6V46M6 6h7M6 46h7" stroke-width="2.6"/>
+              <path d="M68 6V46M68 6h-7M68 46h-7" stroke-width="2.6"/>
+              <path d="M20 40V14h13l5 6h16v20z" stroke-width="2.6" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="lbl">Laser<br>disarming</span>
+        </button>
+
+        <button class="folder" data-win="win-vault">
+          <span class="ico">
+            <svg viewBox="0 0 74 52" fill="none" stroke="var(--cyan)" stroke-width="2">
+              <path d="M6 6V46M6 6h7M6 46h7" stroke-width="2.6"/>
+              <path d="M68 6V46M68 6h-7M68 46h-7" stroke-width="2.6"/>
+              <path d="M20 40V14h13l5 6h16v20z" stroke-width="2.6" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="lbl">Vault<br>code</span>
+        </button>
+      </div>
+
+      <div class="map-card deactivated">
+        <div class="map-head">
+          <span class="t">MAP//V.04</span>
+          <span class="n">NODE_ID:BANK_GND</span>
+        </div>
+        <div class="map-inner">
+          <span class="ol">OVERLAY</span>
+          <div class="map-grid"></div>
+          <div class="map-blip"></div>
+        </div>
+        <div class="map-meta">
+          NF-01 ASSET<br>
+          TACTICAL ARCHITECTURE<br>
+          SECURED NODE
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT RAIL: COMMS LOG -->
+    <aside class="rail">
+      <div class="log-head">
+        <span class="t">COMMS LOG// LIVE</span>
+        <span class="live-dot"></span>
+      </div>
+      <div class="log" id="log">
+        <div class="line"><span class="ts">[14:18:22]</span><span class="src">SYSTEM:</span> HANDLER-01 CONNECTED.</div>
+        <div class="line"><span class="ts">[14:19:05]</span><span class="src">INF-01:</span> PERIMETER BREACHED. NO CONTACT.</div>
+        <div class="line"><span class="ts">[14:20:44]</span><span class="src">SYSTEM:</span> OVERWATCH SYNC ESTABLISHED.</div>
+        <div class="line"><span class="ts">[14:22:04]</span><span class="src">INF-01:</span> APPROACHING PERIMETER SECTOR 7.</div>
+        <div class="line"><span class="ts">[14:22:15]</span><span class="src">SYSTEM:</span> NODE_02 ACCESS GRANTED.</div>
+        <div class="line"><span class="ts">[14:23:45]</span><span class="src">INF-01:</span> TARGET IN SIGHT. WAITING FOR CMD.</div>
+        <div class="line"><span class="ts">[18:52:16]</span><span class="src">INF-01:</span> THERMAL SIGNATURE DETECTED.</div>
+        <div class="line"><span class="ts">[18:52:32]</span><span class="src">INF-01:</span> SYSTEM:BYPASS SEQUENCE READY.</div>
+        <div class="line"><span class="ts">[18:52:52]</span><span class="src">INF-01:</span> SYSTEM:BYPASS SEQUENCE READY.</div>
+        <div class="line"><span class="ts">[18:53:10]</span><span class="src">INF-01:</span> THERMAL SIGNATURE DETECTED.</div>
+        <div class="line"><span class="ts">[18:54:40]</span><span class="src">INF-01:</span> SYSTEM:BYPASS SEQUENCE READY.</div>
+        <div class="line"><span class="ts">[18:55:52]</span><span class="src">INF-01:</span> SYSTEM:SCANNING FREQUENCIES ...</div>
+        <div class="line"><span class="ts">[18:55:58]</span><span class="src">INF-01:</span> SYSTEM:BYPASS SEQUENCE READY.</div>
+      </div>
+    </aside>
+  </main>
+</div>
+
+<!-- ============ WINDOWS ============ -->
+
+<!-- Laser disarming: file scatter -->
+<div class="win win-files win-grid-parent" id="win-laser" style="left:11%;top:18%">
+  <div class="win-bar"><span class="win-title">/ Laser disarming</span>
+    <button class="win-close" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+  </div>
+  <div class="win-body">
+    <div class="file-scatter" id="laser-scatter"><!-- files injected --></div>
+  </div>
+</div>
+
+<!-- Vault code: single file -->
+<div class="win win-files" id="win-vault" style="left:11%;top:18%">
+  <div class="win-bar"><span class="win-title">/ Vault code</span>
+    <button class="win-close" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+  </div>
+  <div class="win-body">
+    <div class="file-scatter">
+      <button class="file" style="left:60px;top:44px" data-open="win-numcomb">
+        <span class="doc"><svg viewBox="0 0 64 80" fill="none" stroke="var(--cyan)" stroke-width="2.2"><path d="M8 4h34l14 14v58H8z"/><path d="M42 4v14h14"/><path d="M24 32h16l-16 16h16" stroke-width="2.4"/></svg></span>
+        <span class="fname">num_comb</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- nested: dot grid (laser code) -->
+<div class="win win-grid nested" id="win-dotgrid" style="left:26%;top:40%">
+  <div class="win-bar"><span class="win-title" id="dotgrid-title">/ Laser disarming / light_code</span>
+    <button class="win-close" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+  </div>
+  <div class="win-body"><div class="dotgrid" id="dotgrid"></div></div>
+</div>
+
+<!-- nested: letter grid (num_comb) -->
+<div class="win nested win-grid" id="win-numcomb" style="left:44%;top:52%;max-width:92vw;max-height:74vh">
+  <div class="win-bar"><span class="win-title">/ Vault code / num_comb</span>
+    <button class="win-close" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+  </div>
+  <div class="win-body"><div class="lettergrid" id="lettergrid"></div></div>
+</div>
+
+<script>
+/* ---------- comms log: occasional live append ---------- */
+(function(){
+  const log=document.getElementById('log');
+  const msgs=[
+    ['INF-01','SIGNAL STABLE. HOLDING POSITION.'],
+    ['SYSTEM','ENCRYPTION KEY ROTATED.'],
+    ['INF-01','MOTION DETECTED. SECTOR 4.'],
+    ['SYSTEM','THERMAL CHARGE AT 66%.'],
+    ['INF-01','SYSTEM:BYPASS SEQUENCE READY.'],
+  ];
+  let i=0;
+  setInterval(()=>{
+    const now=new Date();
+    const p=n=>String(n).padStart(2,'0');
+    const ts=`[${p(now.getHours())}:${p(now.getMinutes())}:${p(now.getSeconds())}]`;
+    const [src,txt]=msgs[i%msgs.length]; i++;
+    const line=document.createElement('div');
+    line.className='line';
+    line.innerHTML=`<span class="ts">${ts}</span><span class="src">${src}:</span> ${txt}`;
+    log.appendChild(line);
+    log.scrollTop=log.scrollHeight;
+  },5200);
+})();
+
+/* ---------- window system ---------- */
+let ztop=100;
+function focusWin(win){ win.style.zIndex=(++ztop); }
+function openWin(id){
+  const w=document.getElementById(id);
+  w.classList.add('open'); focusWin(w);
+}
+function closeWin(win){ win.classList.remove('open'); }
+
+document.querySelectorAll('[data-win]').forEach(b=>{
+  b.addEventListener('click',()=>openWin(b.dataset.win));
+});
+document.querySelectorAll('[data-open]').forEach(b=>{
+  b.addEventListener('click',()=>openWin(b.dataset.open));
+});
+document.querySelectorAll('[data-close]').forEach(b=>{
+  b.addEventListener('click',e=>{ e.stopPropagation(); closeWin(b.closest('.win')); });
+});
+document.querySelectorAll('.win').forEach(w=>{
+  w.addEventListener('mousedown',()=>focusWin(w));
+});
+
+/* ---------- laser file scatter ---------- */
+const laserFiles=[
+  {name:'light_code_L1705', x:60,  y:70 },
+  {name:'light_code_L0345', x:300, y:150},
+  {name:'light_code_L3310', x:660, y:250},
+  {name:'light_code_L11943',x:170, y:330},
+  {name:'light_code_L7802', x:490, y:420},
+];
+/* per-file 5x5 lit patterns (L0345 = exact from spec) */
+const patterns={
+  'light_code_L0345':[
+    [1,1,0,0,0],[0,1,1,1,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,1,1,0]
+  ],
+  'light_code_L1705':[
+    [0,1,0,1,0],[0,0,1,0,0],[1,0,0,0,1],[0,1,1,1,0],[0,0,0,0,0]
+  ],
+  'light_code_L3310':[
+    [1,0,0,0,1],[0,1,0,1,0],[0,0,1,0,0],[0,1,0,1,0],[1,0,0,0,1]
+  ],
+  'light_code_L11943':[
+    [0,0,1,0,0],[0,1,1,1,0],[1,0,1,0,1],[0,0,1,0,0],[0,0,1,0,0]
+  ],
+  'light_code_L7802':[
+    [1,1,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,1,1,1,0],[0,0,0,0,1]
+  ],
+};
+const docSVG=`<svg viewBox="0 0 64 80" fill="none" stroke="var(--cyan)" stroke-width="2.2"><path d="M8 4h34l14 14v58H8z"/><path d="M42 4v14h14"/><path d="M24 32h16l-16 16h16" stroke-width="2.4"/></svg>`;
+const scatter=document.getElementById('laser-scatter');
+laserFiles.forEach(f=>{
+  const b=document.createElement('button');
+  b.className='file'; b.style.left=f.x+'px'; b.style.top=f.y+'px';
+  b.innerHTML=`<span class="doc">${docSVG}</span><span class="fname">${f.name}</span>`;
+  b.addEventListener('click',()=>openDotGrid(f.name));
+  scatter.appendChild(b);
+});
+
+function openDotGrid(name){
+  document.getElementById('dotgrid-title').textContent=`/ Laser disarming / ${name}`;
+  const g=document.getElementById('dotgrid'); g.innerHTML='';
+  (patterns[name]||patterns['light_code_L0345']).flat().forEach(v=>{
+    const c=document.createElement('div'); c.className='cell'+(v?' on':'');
+    c.innerHTML='<span class="d"></span>'; g.appendChild(c);
+  });
+  openWin('win-dotgrid');
+}
+
+/* ---------- num_comb letter grid ---------- */
+const letters=[
+  ['e','f','i','g','h','t','w','o'],
+  ['t','n','i','h','r','n','e','e'],
+  ['n','t','w','f','i','n','o','e'],
+  ['f','o','n','s','u','e','r','v'],
+];
+const lg=document.getElementById('lettergrid');
+letters.flat().forEach(ch=>{
+  const b=document.createElement('button');
+  b.className='ch'; b.type='button'; b.textContent=ch;
+  b.setAttribute('aria-pressed','false');
+  b.addEventListener('click',()=>{
+    const on=b.classList.toggle('on');
+    b.setAttribute('aria-pressed',String(on));
+  });
+  lg.appendChild(b);
+});
+
+/* ---------- draggable windows (by title bar) ---------- */
+document.querySelectorAll('.win').forEach(win=>{
+  const bar=win.querySelector('.win-bar');
+  let sx,sy,ox,oy,drag=false;
+  bar.addEventListener('mousedown',e=>{
+    if(e.target.closest('.win-close'))return;
+    drag=true; const r=win.getBoundingClientRect();
+    win.style.left=r.left+'px'; win.style.top=r.top+'px'; win.style.transform='none';
+    sx=e.clientX; sy=e.clientY; ox=r.left; oy=r.top; focusWin(win); e.preventDefault();
+  });
+  window.addEventListener('mousemove',e=>{
+    if(!drag)return;
+    win.style.left=(ox+e.clientX-sx)+'px';
+    win.style.top=(oy+e.clientY-sy)+'px';
+  });
+  window.addEventListener('mouseup',()=>drag=false);
+});
+
+/* ESC closes topmost open window */
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape')return;
+  const open=[...document.querySelectorAll('.win.open')];
+  if(!open.length)return;
+  open.sort((a,b)=>(+a.style.zIndex||0)-(+b.style.zIndex||0));
+  closeWin(open[open.length-1]);
+});
+</script>
+</body>
+</html>
