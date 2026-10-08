@@ -20,16 +20,18 @@ Reichman University
 
 **Option A: Meta Quest Developer Hub (easiest)**
 1. Connect the headset to the computer with USB-C and allow USB debugging in the headset.
-2. Open Meta Quest Developer Hub and drag `VaultVoice.apk` onto the device panel.
+2. Open Meta Quest Developer Hub and drag `T&M-seminar-project.apk` onto the device panel.
 
 **Option B: SideQuest or adb**
 ```
-adb install -r VaultVoice.apk
+adb install -r "T&M-seminar-project.apk"
 ```
 
 **Handler:** open `Handler/vault-overwatch.html` in the browser and press F11 for full screen. An internet connection loads the interface fonts; without it the page still works with fallback fonts.
 
 **Launch the VR app:** in the headset open App Library, choose **Unknown Sources**, then **T&M-seminar-project**.
+
+**In the lab:** the Unity project is already on the lab laptop, in a folder named **T&M-seminar-project**. To run it on the headset from there, connect the Quest with USB-C, open the project in Unity, and use Build And Run with the Android platform selected.
 
 **Opening the source project:** open the folder in Unity Hub with Unity **6000.3.15f1**. The first open takes a few minutes while Unity rebuilds the `Library` folder. The main scene is `Assets/Scenes/REALSCENE.unity`. To build, switch the platform to Android in Build Profiles and build.
 
